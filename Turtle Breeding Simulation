@@ -2,9 +2,9 @@ import time
 import random
 import statistics
 
-# CONSTANTS (weights in grams)
+# CONSTANTS (weights - grams)
 goal = 50000
-numTurtles = 20  # number of adult breeding turtles in each generation
+numTurtles = 20  # number of breeding turtles in each gen
 initialMinWeight = 200
 initialMaxWeight = 600
 initialModeWeight = 300
@@ -15,25 +15,25 @@ litterSize = 8
 littersPerYear = 10
 generationLimit = 500
 
-# even-number of turtles for breeding pairs:
+# even-number of turtles for breeding pairs
 if numTurtles % 2 != 0:
   numTurtles += 1
 
 
 def populate(num_turtles, min_weight, max_weight, mode_weight):
-  #Start population with triangular distribution of weights
+  #start population with triangular distribution of weights?
   return [int(random.triangular(min_weight, max_weight, mode_weight))\
           for i in range(num_turtles)]
 
 
 def fitness(population, goal):
-  #Measure population fitness based on an attribute mean vs target
+  #measure population fitness -- attribute mean vs target
   ave = statistics.mean(population)
   return ave / goal
 
 
 def select(population, to_retain):
-  #Limiting population
+  #limit population
   sorted_population = sorted(population)
   to_retain_by_sex = to_retain // 2
   members_per_sex = len(sorted_population) // 2
@@ -45,7 +45,7 @@ def select(population, to_retain):
 
 
 def breed(males, females, litter_size):
-  #Crossing over genes among turtles
+  #cross over genes
   random.shuffle(males)
   random.shuffle(females)
   children = []
@@ -57,7 +57,7 @@ def breed(males, females, litter_size):
 
 
 def mutate(children, mutate_odds, mutate_min, mutate_max):
-  #Randomly alter turtle weights using input odds & fractional changes
+  #randomly alter turtle weights -- input odds & fractional changes
   for index, rat in enumerate(children):
     if mutate_odds >= random.random():
       children[index] = round(rat * random.uniform(mutate_min, mutate_max))
